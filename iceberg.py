@@ -19,10 +19,16 @@ class IceBerg:
         self.spark.sql("CREATE TABLE local.db.table (id bigint, data string) USING iceberg")
 
     def write_data(self):
-        self.spark.sql("INSERT INTO local.db.table VALUES (1, 'a'), (2, 'b'), (3, 'c');")
+        print("Skip...")
+        #self.spark.sql("INSERT INTO local.db.table VALUES (1, 'a'), (2, 'b'), (3, 'c');")
+
+    def update_data(self):
+        self.spark.sql("update local.db.table set data='Jignesh' where id=1;")
+    
     def read_data(self):
         result = self.spark.sql("SELECT * FROM local.db.table;")
         return result.show()
+        
     def update_data(self):
         pass
     def inspect_snapshot(self):
@@ -32,12 +38,17 @@ ice = IceBerg()
 
 
 print("**********Creating Table**********")
-ice.create_table()
+#ice.create_table()
 
 
 print("**********Writing Table**********")
 ice.write_data()
 
+print("**********Reading Table**********")
+print(ice.read_data())
+
+print("**********Update the Value in Table**********")
+print(ice.update_data())
 
 print("**********Reading Table**********")
 print(ice.read_data())
